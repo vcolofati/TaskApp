@@ -1,16 +1,19 @@
 package com.example.tasks.view;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.os.Bundle;
 
 import com.example.tasks.R;
 import com.example.tasks.viewmodel.RegisterViewModel;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ViewHolder mViewHolder = new ViewHolder();
+    private final ViewHolder mViewHolder = new ViewHolder();
     private RegisterViewModel mRegisterViewModel;
 
     @Override
@@ -22,6 +25,11 @@ public class RegisterActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        // Mapeamento de elementos
+        this.componentMapping();
+
+        // Listeners
+        mViewHolder.buttonSignup.setOnClickListener(this);
 
         // Incializa variáveis
         this.mRegisterViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
@@ -30,12 +38,33 @@ public class RegisterActivity extends AppCompatActivity {
         this.loadObservers();
     }
 
-    private void loadObservers() {}
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.button_signup) {
+            String name = this.mViewHolder.editName.getText().toString();
+            String email = this.mViewHolder.editEmail.getText().toString();
+            String password = this.mViewHolder.editPassword.getText().toString();
+
+            this.mRegisterViewModel.signup(name, email, password);
+        }
+    }
+
+    private void loadObservers() {
+    }
+
+    private void componentMapping() {
+        this.mViewHolder.editName = findViewById(R.id.edit_name);
+        this.mViewHolder.editEmail = findViewById(R.id.edit_email);
+        this.mViewHolder.editPassword = findViewById(R.id.edit_password);
+        this.mViewHolder.buttonSignup = findViewById(R.id.button_signup);
+    }
 
     /**
      * ViewHolder
      */
     private static class ViewHolder {
+        EditText editName, editEmail, editPassword;
+        Button buttonSignup;
     }
-
 }

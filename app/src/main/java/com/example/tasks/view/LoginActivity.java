@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tasks.R;
+import com.example.tasks.entities.Response;
 import com.example.tasks.viewmodel.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -46,6 +49,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void loadObservers() {
+        this.mLoginViewModel.loginResponse.observe(this, new Observer<Response>() {
+            @Override
+            public void onChanged(Response response) {
+                String message = response.isSuccess() ? "SUCESSO" : response.getMessage();
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
     }
 
     private void componentMapping() {

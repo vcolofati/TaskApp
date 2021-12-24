@@ -28,6 +28,10 @@ public class LoginViewModel extends AndroidViewModel {
         this.mRepository.login(email, password, new APIListener<Account>() {
             @Override
             public void onSuccess(Account result) {
+                // Salvar dados login
+                mRepository.saveUserData(result);
+
+                // Informo resposta para activity
                 mLoginResponse.setValue(new Response());
             }
 

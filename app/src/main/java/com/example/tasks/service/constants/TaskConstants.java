@@ -9,6 +9,7 @@ public class TaskConstants {
     }
 
     public static class SHARED {
+        public static final String TASKS_SHARED = "tasksShared";
         public static final String TOKEN_KEY = "token";
         public static final String PERSON_KEY = "personkey";
         public static final String PERSON_NAME = "personname";

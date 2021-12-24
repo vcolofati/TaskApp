@@ -12,4 +12,16 @@ public class Account {
 
     @SerializedName("name")
     private String name;
+
+    public String getToken() {
+        return token;
+    }
+
+    public String getPersonKey() {
+        return personKey;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

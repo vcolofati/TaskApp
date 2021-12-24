@@ -21,7 +21,7 @@
         android:id="@+id/edit_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/senha"
+        android:hint="@string/password"
         android:inputType="textPassword"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

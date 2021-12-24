@@ -9,10 +9,11 @@ import com.example.tasks.service.repository.AccountRepository;
 
 public class RegisterViewModel extends AndroidViewModel {
 
-    private final AccountRepository mRepository = new AccountRepository();
+    private final AccountRepository mRepository;
 
     public RegisterViewModel(@NonNull Application application) {
         super(application);
+        mRepository = new AccountRepository(application);
     }
 
     public void signup(String name, String email, String password) {

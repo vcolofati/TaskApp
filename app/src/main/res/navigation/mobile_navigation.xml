@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_all_tasks"
         android:name="com.example.tasks.view.TaskListFragment"
-        android:label="@string/todas_as_tarefas"
+        android:label="@string/all_tasks"
         tools:layout="@layout/fragment_task_list">
         <argument
             android:name="TASKFILTER"
@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/nav_next_tasks"
         android:name="com.example.tasks.view.TaskListFragment"
-        android:label="@string/proximos_7_dias"
+        android:label="@string/next_seven_days"
         tools:layout="@layout/fragment_task_list">
         <argument
             android:name="TASKFILTER"
@@ -30,7 +30,7 @@
     <fragment
         android:id="@+id/nav_overdue"
         android:name="com.example.tasks.view.TaskListFragment"
-        android:label="@string/expiradas"
+        android:label="@string/expired"
         tools:layout="@layout/fragment_task_list">
         <argument
             android:name="TASKFILTER"

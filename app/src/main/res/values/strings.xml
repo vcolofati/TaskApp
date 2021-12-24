@@ -9,34 +9,33 @@
     <string name="task_created">Tarefa criada com sucesso!</string>
     <string name="task_removed">Tarefa removida com sucesso!</string>
 
-    <string name="email_senha_obrigatorios">E-mail e/ou senha obrigatórios!</string>
-    <string name="nome_obrigatorio">Nome obrigatório!</string>
+    <string name="email_password_required">E-mail e/ou senha obrigatórios!</string>
+    <string name="name_required">Nome obrigatório!</string>
 
-    <string name="todas_as_tarefas">Todas as tarefas</string>
-    <string name="proximos_7_dias">Próximos 7 dias</string>
-    <string name="expiradas">Expiradas</string>
+    <string name="all_tasks">Todas as tarefas</string>
+    <string name="next_seven_days">Próximos 7 dias</string>
+    <string name="expired">Expiradas</string>
 
     <string name="action_settings">Configurações</string>
     <string name="email">E-mail</string>
-    <string name="senha">Senha</string>
+    <string name="password">Senha</string>
     <string name="login">Login</string>
-    <string name="nome">Nome</string>
-    <string name="cadastrar">Cadastrar</string>
-    <string name="descricao">Descrição</string>
-    <string name="prioridade">Prioridade</string>
-    <string name="data_limite">Data Limite</string>
+    <string name="name">Nome</string>
+    <string name="signup">Cadastrar</string>
+    <string name="description">Descrição</string>
+    <string name="priority">Prioridade</string>
+    <string name="limit_date">Data Limite</string>
     <string name="update_task">Atualizar tarefa</string>
-    <string name="clique_para_selecionar_a_data">Clique para selecionar a data limite</string>
-    <string name="completa">Completa</string>
-    <string name="adicionar_tarefa">Adicionar tarefa</string>
-    <string name="sim">Sim</string>
-    <string name="cancelar">Cancelar</string>
-    <string name="remocao_de_tarefa">Remoção de tarefa</string>
-    <string name="remover_tarefa">Remover tarefa?</string>
-    <string name="nao_tem_uma_conta">Não tem uma conta?</string>
-    <string name="cadastre_se">Cadastre-se</string>
-    <string name="entrar">Entrar</string>
-    <string name="sair">Sair</string>
-    <string name="all_tasks">Tarefas</string>
-
+    <string name="limit_date_selector">Clique para selecionar a data limite</string>
+    <string name="done">Completa</string>
+    <string name="add_task">Adicionar tarefa</string>
+    <string name="yes">Sim</string>
+    <string name="cancel">Cancelar</string>
+    <string name="task_removal">Remoção de tarefa</string>
+    <string name="remove_task">Remover tarefa?</string>
+    <string name="do_not_have_an_account">Não tem uma conta?</string>
+    <string name="sign">Cadastre-se</string>
+    <string name="enter">Entrar</string>
+    <string name="exit">Sair</string>
+    <string name="tasks">Tarefas</string>
 </resources>

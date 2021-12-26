@@ -1,5 +1,6 @@
 package com.example.tasks.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +17,7 @@ import com.example.tasks.viewmodel.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ViewHolder mViewHolder = new ViewHolder();
+    private final ViewHolder mViewHolder = new ViewHolder();
     private LoginViewModel mLoginViewModel;
 
     @Override
@@ -35,6 +36,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // Cria observadores
         this.loadObservers();
+
+        //Verificar se usuário já está logado
+        this.IsUserLogged();
     }
 
     @Override
@@ -52,11 +56,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         this.mLoginViewModel.loginResponse.observe(this, new Observer<Response>() {
             @Override
             public void onChanged(Response response) {
-                String message = response.isSuccess() ? "SUCESSO" : response.getMessage();
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT)
-                        .show();
+                if (response.isSuccess()) {
+                    startMain();
+                } else {
+                    Toast.makeText(getApplicationContext(), response.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
+                }
+
             }
         });
+        this.mLoginViewModel.userLogged.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isLogged) {
+                if (isLogged) {
+                    startMain();
+                }
+            }
+        });
+    }
+
+    private void startMain() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void componentMapping() {
@@ -67,6 +89,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void setListeners() {
         this.mViewHolder.buttonLogin.setOnClickListener(this);
+    }
+
+    private void IsUserLogged() {
+        this.mLoginViewModel.IsUserLogged();
     }
 
     /**

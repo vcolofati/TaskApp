@@ -1,13 +1,10 @@
 package com.example.tasks.view.viewholder;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tasks.R;
 import com.example.tasks.service.listener.TaskListener;
 
 import java.text.SimpleDateFormat;
@@ -15,8 +12,8 @@ import java.util.Locale;
 
 public class TaskViewHolder extends RecyclerView.ViewHolder {
 
-    private SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-    private TaskListener mListener;
+    private final SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    private final TaskListener mListener;
 
     public TaskViewHolder(@NonNull View itemView, TaskListener listener) {
         super(itemView);

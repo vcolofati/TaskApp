@@ -19,7 +19,7 @@ import com.example.tasks.viewmodel.TaskListViewModel;
 
 public class TaskListFragment extends Fragment {
 
-    private TaskAdapter mAdapter = new TaskAdapter();
+    private final TaskAdapter mAdapter = new TaskAdapter();
     private TaskListViewModel mViewModel;
     private TaskListener mListener;
 

@@ -5,13 +5,19 @@ import com.google.gson.annotations.SerializedName;
 public class Account {
 
     @SerializedName("token")
-    private String token;
+    private final String token;
 
     @SerializedName("personKey")
-    private String personKey;
+    private final String personKey;
 
     @SerializedName("name")
-    private String name;
+    private final String name;
+
+    public Account(String token, String personKey, String name) {
+        this.token = token;
+        this.personKey = personKey;
+        this.name = name;
+    }
 
     public String getToken() {
         return token;

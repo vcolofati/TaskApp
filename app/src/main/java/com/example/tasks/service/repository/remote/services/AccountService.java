@@ -1,4 +1,4 @@
-package com.example.tasks.service.repository.remote;
+package com.example.tasks.service.repository.remote.services;
 
 import com.example.tasks.entities.Account;
 

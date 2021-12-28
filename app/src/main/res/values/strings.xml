@@ -38,4 +38,5 @@
     <string name="enter">Entrar</string>
     <string name="exit">Sair</string>
     <string name="tasks">Tarefas</string>
+    <string name="image_complete">Imagem de tarefa</string>
 </resources>

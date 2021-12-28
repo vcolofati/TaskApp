@@ -70,12 +70,14 @@ public class AccountRepository extends BaseRepository {
         this.mSecurityPreferences.storeString(TaskConstants.SHARED.TOKEN_KEY, account.getToken());
         this.mSecurityPreferences.storeString(TaskConstants.SHARED.PERSON_KEY, account.getPersonKey());
         this.mSecurityPreferences.storeString(TaskConstants.SHARED.PERSON_NAME, account.getName());
+        RetrofitClient.saveHeaders(account.getToken(), account.getPersonKey());
     }
 
     public Account getUserData() {
         String token = this.mSecurityPreferences.getStoredString(TaskConstants.SHARED.TOKEN_KEY);
         String personKey = this.mSecurityPreferences.getStoredString(TaskConstants.SHARED.PERSON_KEY);
         String name = this.mSecurityPreferences.getStoredString(TaskConstants.SHARED.PERSON_NAME);
+        RetrofitClient.saveHeaders(token,personKey);
         return new Account(token, personKey, name);
     }
 }

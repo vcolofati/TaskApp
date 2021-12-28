@@ -17,4 +17,40 @@ public class Task {
 
     @SerializedName("Complete")
     private Boolean complete;
+
+    public int getId() {
+        return id;
+    }
+
+    public int getPriorityId() {
+        return priorityId;
+    }
+
+    public void setPriorityId(int priorityId) {
+        this.priorityId = priorityId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public Boolean getComplete() {
+        return complete;
+    }
+
+    public void setComplete(Boolean complete) {
+        this.complete = complete;
+    }
 }

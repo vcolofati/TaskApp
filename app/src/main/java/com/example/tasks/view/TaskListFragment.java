@@ -8,14 +8,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tasks.R;
+import com.example.tasks.entities.Response;
+import com.example.tasks.entities.Task;
 import com.example.tasks.service.listener.TaskListener;
 import com.example.tasks.view.adapter.TaskAdapter;
 import com.example.tasks.viewmodel.TaskListViewModel;
+
+import java.util.List;
 
 public class TaskListFragment extends Fragment {
 
@@ -53,10 +58,32 @@ public class TaskListFragment extends Fragment {
         // Cria os observadores
         this.loadObservers();
 
+
         return root;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.mViewModel.getAll();
+    }
+
     private void loadObservers() {
+        this.mViewModel.list.observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> tasks) {
+                mAdapter.updateList(tasks);
+            }
+        });
+
+        this.mViewModel.response.observe(getViewLifecycleOwner(), new Observer<Response>() {
+            @Override
+            public void onChanged(Response response) {
+                if (!response.isSuccess()) {
+                    toast(response.getMessage());
+                }
+            }
+        });
     }
 
     private void toast(String msg) {

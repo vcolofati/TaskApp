@@ -22,13 +22,13 @@ public class TaskConstants {
 
     public static class FILTER {
         public static final int NO_FILTER = 0;
-        public static final int OVERDUE = 1;
-        public static final int NEXT_7_DAYS = 2;
+        public static final int NEXT_7_DAYS = 1;
+        public static final int OVERDUE = 2;
     }
 
     public static class BUNDLE {
         public static final String TASKID = "taskid";
-        public static final String TASKFILTER = "taskfilter";
+        public static final String TASKFILTER = "TASKFILTER";
     }
 
 }

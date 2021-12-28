@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.tasks.entities.Response;
 import com.example.tasks.entities.Task;
+import com.example.tasks.service.constants.TaskConstants;
 import com.example.tasks.service.listener.APIListener;
 import com.example.tasks.service.repository.TaskRepository;
 
@@ -30,8 +31,8 @@ public class TaskListViewModel extends AndroidViewModel {
         this.mRepository = new TaskRepository(application);
     }
 
-    public void getAll() {
-        this.mRepository.getAll(new APIListener<List<Task>>() {
+    public void getAllFiltered(int filter) {
+        APIListener<List<Task>> listener = new APIListener<List<Task>>() {
             @Override
             public void onSuccess(List<Task> result) {
                 mList.setValue(result);
@@ -42,6 +43,14 @@ public class TaskListViewModel extends AndroidViewModel {
                 mList.setValue(new ArrayList<Task>());
                 mResponse.setValue(new Response(message));
             }
-        });
+        };
+
+        if (filter == TaskConstants.FILTER.NO_FILTER){
+            this.mRepository.getAll(listener);
+        } else if (filter == TaskConstants.FILTER.NEXT_7_DAYS) {
+            this.mRepository.nextWeek(listener);
+        } else if (filter == TaskConstants.FILTER.OVERDUE) {
+            this.mRepository.overdue(listener);
+        }
     }
 }

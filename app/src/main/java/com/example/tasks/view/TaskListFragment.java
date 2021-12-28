@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tasks.R;
 import com.example.tasks.entities.Response;
 import com.example.tasks.entities.Task;
+import com.example.tasks.service.constants.TaskConstants;
 import com.example.tasks.service.listener.TaskListener;
 import com.example.tasks.view.adapter.TaskAdapter;
 import com.example.tasks.viewmodel.TaskListViewModel;
@@ -27,6 +28,7 @@ public class TaskListFragment extends Fragment {
     private final TaskAdapter mAdapter = new TaskAdapter();
     private TaskListViewModel mViewModel;
     private TaskListener mListener;
+    private int mFilter = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_task_list, container, false);
@@ -58,6 +60,10 @@ public class TaskListFragment extends Fragment {
         // Cria os observadores
         this.loadObservers();
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            this.mFilter = bundle.getInt(TaskConstants.BUNDLE.TASKFILTER);
+        }
 
         return root;
     }
@@ -65,7 +71,7 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        this.mViewModel.getAll();
+        this.mViewModel.getAllFiltered(this.mFilter);
     }
 
     private void loadObservers() {

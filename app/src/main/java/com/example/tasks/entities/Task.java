@@ -2,6 +2,8 @@ package com.example.tasks.entities;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 public class Task {
     @SerializedName("Id")
     private int id;
@@ -46,7 +48,7 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    public Boolean getComplete() {
+    public Boolean isComplete() {
         return complete;
     }
 

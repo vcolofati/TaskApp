@@ -24,6 +24,9 @@ public class TaskViewModel extends AndroidViewModel {
     private final MutableLiveData<Response> mTaskResponse = new MutableLiveData<>();
     public final LiveData<Response> taskResponse = this.mTaskResponse;
 
+    private final MutableLiveData<Task> mTask = new MutableLiveData<>();
+    public final LiveData<Task> task = this.mTask;
+
     private final MutableLiveData<List<Priority>> mListPriority = new MutableLiveData<>();
     public LiveData<List<Priority>> listPriority = this.mListPriority;
 
@@ -43,6 +46,20 @@ public class TaskViewModel extends AndroidViewModel {
             @Override
             public void onSuccess(Boolean result) {
                 mTaskResponse.setValue(new Response());
+            }
+
+            @Override
+            public void onFailure(String message) {
+                mTaskResponse.setValue(new Response(message));
+            }
+        });
+    }
+
+    public void get(int id) {
+        this.mTaskRepository.get(id, new APIListener<Task>() {
+            @Override
+            public void onSuccess(Task result) {
+                mTask.setValue(result);
             }
 
             @Override

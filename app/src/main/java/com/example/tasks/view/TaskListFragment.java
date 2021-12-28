@@ -1,5 +1,6 @@
 package com.example.tasks.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,11 @@ public class TaskListFragment extends Fragment {
         this.mListener = new TaskListener() {
             @Override
             public void onListClick(int id) {
+                Intent intent = new Intent(getContext(), TaskActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt(TaskConstants.BUNDLE.TASKID, id);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
 
             @Override
@@ -56,6 +62,8 @@ public class TaskListFragment extends Fragment {
             public void onUndoClick(int id) {
             }
         };
+
+        this.mAdapter.attachListener(this.mListener);
 
         // Cria os observadores
         this.loadObservers();

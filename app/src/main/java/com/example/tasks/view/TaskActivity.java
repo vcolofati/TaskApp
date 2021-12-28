@@ -20,17 +20,17 @@ import com.example.tasks.R;
 import com.example.tasks.entities.Priority;
 import com.example.tasks.entities.Response;
 import com.example.tasks.entities.Task;
+import com.example.tasks.service.constants.TaskConstants;
+import com.example.tasks.util.DateManipulation;
 import com.example.tasks.viewmodel.TaskViewModel;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 public class TaskActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
-    private final SimpleDateFormat mFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     private final ViewHolder mViewHolder = new ViewHolder();
     private TaskViewModel mViewModel;
 
@@ -56,6 +56,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         // Cria observadores
         this.loadObservers();
         this.mViewModel.getList();
+        this.loadData();
     }
 
     @Override
@@ -70,10 +71,12 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        final SimpleDateFormat mFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
         Calendar c = Calendar.getInstance();
         c.set(year, month, dayOfMonth);
 
-        String date = this.mFormat.format(c.getTime());
+        String date = mFormat.format(c.getTime());
         this.mViewHolder.buttonDate.setText(date);
     }
 
@@ -83,6 +86,15 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadData() {
+        int mTaskId = 0;
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            mTaskId = bundle.getInt(TaskConstants.BUNDLE.TASKID);
+            this.mViewModel.get(mTaskId);
+        }
     }
 
     private void setListeners() {
@@ -129,12 +141,29 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        this.mViewModel.task.observe(this, new Observer<Task>() {
+            @Override
+            public void onChanged(Task task) {
+                mViewHolder.editDescription.setText(task.getDescription());
+                mViewHolder.buttonDate.setText(DateManipulation.manipulateDate(task.getDueDate()));
+                mViewHolder.checkComplete.setChecked(task.isComplete());
+                mViewHolder.spinnerPriority.setSelection(getIndex(task));
+            }
+        });
+
         this.mViewModel.taskResponse.observe(this, new Observer<Response>() {
             @Override
             public void onChanged(Response response) {
                 String s = "";
             }
         });
+    }
+
+    private int getIndex(Task task) {
+        Priority priority = new Priority();
+        priority.setId(task.getPriorityId());
+        ArrayAdapter<Priority> tempArrayAdapter = (ArrayAdapter<Priority>) mViewHolder.spinnerPriority.getAdapter();
+        return tempArrayAdapter.getPosition(priority);
     }
 
     private void setSpinnerData(List<Priority> list) {

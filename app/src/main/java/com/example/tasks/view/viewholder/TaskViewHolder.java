@@ -12,15 +12,11 @@ import com.example.tasks.R;
 import com.example.tasks.entities.Task;
 import com.example.tasks.service.listener.TaskListener;
 import com.example.tasks.service.repository.PriorityRepository;
+import com.example.tasks.util.DateManipulation;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class TaskViewHolder extends RecyclerView.ViewHolder {
 
-    private final SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     private final TaskListener mListener;
     private final PriorityRepository mRepository;
 
@@ -39,23 +35,22 @@ public class TaskViewHolder extends RecyclerView.ViewHolder {
      * Atribui valores aos elementos de interface e também eventos
      * @param task
      */
-    public void bindData(Task task) {
+    public void bindData(final Task task) {
         this.mTextDescription.setText(task.getDescription());
-        try {
-            Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(task.getDueDate());
-            if (date != null) {
-                this.mTextDueDate.setText(mDateFormat.format(date));
-            }
-        } catch (ParseException e) {
-            this.mTextDueDate.setText("--");
-        }
+        this.mTextDueDate.setText(DateManipulation.manipulateDate(task.getDueDate()));
         this.mTextPriority.setText(this.mRepository.getDescription(task.getPriorityId()));
-        if (task.getComplete()) {
+        if (task.isComplete()) {
             this.mImageComplete.setImageResource(R.drawable.ic_done);
         } else {
             this.mImageComplete.setImageResource(R.drawable.ic_todo);
-
         }
+
+        this.mTextDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onListClick(task.getId());
+            }
+        });
         //this.mTextPriority.setText(task.get);
         /*
         new AlertDialog.Builder(itemView.getContext())

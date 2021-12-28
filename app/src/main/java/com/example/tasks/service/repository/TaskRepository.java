@@ -29,7 +29,7 @@ public class TaskRepository extends BaseRepository {
                 task.getPriorityId(),
                 task.getDescription(),
                 task.getDueDate(),
-                task.getComplete()
+                task.isComplete()
         );
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -81,4 +81,22 @@ public class TaskRepository extends BaseRepository {
         this.list(call, listener);
     }
 
+    public void get(int id, final APIListener<Task> listener) {
+        Call<Task> call = this.mService.get(id);
+        call.enqueue(new Callback<Task>() {
+            @Override
+            public void onResponse(Call<Task> call, Response<Task> response) {
+                if (response.code() == TaskConstants.HTTP.SUCCESS) {
+                    listener.onSuccess(response.body());
+                } else {
+                    listener.onFailure(handleFailure(response.errorBody()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Task> call, Throwable t) {
+                listener.onFailure(mContext.getString(R.string.ERROR_UNEXPECTED));
+            }
+        });
+    }
 }

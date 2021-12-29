@@ -2,11 +2,13 @@ package com.example.tasks.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,7 +17,7 @@ import com.example.tasks.R;
 import com.example.tasks.entities.Response;
 import com.example.tasks.viewmodel.RegisterViewModel;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final ViewHolder mViewHolder = new ViewHolder();
     private RegisterViewModel mRegisterViewModel;
@@ -23,7 +25,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_signup);
 
         // Botão de voltar nativo
         if (getSupportActionBar() != null) {
@@ -52,6 +54,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             this.mRegisterViewModel.signup(name, email, password);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadObservers() {

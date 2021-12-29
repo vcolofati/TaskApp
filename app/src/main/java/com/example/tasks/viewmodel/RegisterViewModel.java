@@ -24,10 +24,11 @@ public class RegisterViewModel extends AndroidViewModel {
         mRepository = new AccountRepository(application);
     }
 
-    public void signup(String name, String email, String password) {
+    public void signup(String name, final String email, String password) {
         this.mRepository.signup(name, email, password, new APIListener<Account>() {
             @Override
             public void onSuccess(Account result) {
+                result.setEmail(email);
                 mRepository.saveUserData(result);
                 mSignupResponse.setValue(new Response());
             }

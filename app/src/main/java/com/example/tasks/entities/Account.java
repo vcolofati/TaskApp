@@ -13,10 +13,13 @@ public class Account {
     @SerializedName("name")
     private final String name;
 
-    public Account(String token, String personKey, String name) {
+    private String email;
+
+    public Account(String token, String personKey, String name, String email) {
         this.token = token;
         this.personKey = personKey;
         this.name = name;
+        this.email = email;
     }
 
     public String getToken() {
@@ -29,5 +32,13 @@ public class Account {
 
     public String getName() {
         return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

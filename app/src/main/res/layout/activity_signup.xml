@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".view.RegisterActivity">
+    tools:context=".view.SignupActivity">
 
     <EditText
         android:id="@+id/edit_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_name"
+        android:drawablePadding="8dp"
         android:hint="@string/name"
         android:inputType="textPersonName"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -21,6 +23,9 @@
         android:id="@+id/edit_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/ic_mail"
+        android:drawablePadding="8dp"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -31,6 +36,9 @@
         android:id="@+id/edit_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/ic_lock"
+        android:drawablePadding="8dp"
         android:hint="@string/password"
         android:inputType="textPassword"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -39,6 +47,7 @@
 
     <Button
         android:id="@+id/button_signup"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"

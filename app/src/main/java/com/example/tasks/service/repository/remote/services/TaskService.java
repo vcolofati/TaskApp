@@ -47,11 +47,13 @@ public interface TaskService {
             @Field("Complete") boolean complete
     );
 
-    @PATCH("Task/Complete")
-    Call<Boolean> markAsRead(@Field("Id") int id);
+    @FormUrlEncoded
+    @PUT("Task/Complete")
+    Call<Boolean> complete(@Field("Id") int id);
 
-    @PATCH("Task/Undo")
-    Call<Boolean> undoRead(@Field("Id") int id);
+    @FormUrlEncoded
+    @PUT("Task/Undo")
+    Call<Boolean> undo(@Field("Id") int id);
 
     @FormUrlEncoded
     @HTTP(method = "DELETE", path = "Task", hasBody = true)

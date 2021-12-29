@@ -20,6 +20,8 @@ public class TaskListViewModel extends AndroidViewModel {
 
     private final TaskRepository mRepository;
 
+    private int mFilter = 0;
+
     private final MutableLiveData<List<Task>> mList = new MutableLiveData<>();
     public LiveData<List<Task>> list = this.mList;
 
@@ -32,6 +34,7 @@ public class TaskListViewModel extends AndroidViewModel {
     }
 
     public void getAllFiltered(int filter) {
+        this.mFilter = filter;
         APIListener<List<Task>> listener = new APIListener<List<Task>>() {
             @Override
             public void onSuccess(List<Task> result) {
@@ -55,18 +58,37 @@ public class TaskListViewModel extends AndroidViewModel {
     }
 
     public void delete(int id) {
-        this.mRepository.delete(id, new APIListener<Boolean>() {
+        APIListener<Boolean> listener = new APIListener<Boolean>() {
             @Override
             public void onSuccess(Boolean result) {
-                if (result) {
-                    mResponse.setValue(new Response());
-                }
+                getAllFiltered(mFilter);
+                mResponse.setValue(new Response());
             }
 
             @Override
             public void onFailure(String message) {
                 mResponse.setValue(new Response(message));
             }
-        });
+        };
+        this.mRepository.delete(id, listener);
+    }
+
+    public void updateStatus(int id, boolean complete) {
+        APIListener<Boolean> listener = new APIListener<Boolean>() {
+            @Override
+            public void onSuccess(Boolean result) {
+                getAllFiltered(mFilter);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                mResponse.setValue(new Response(message));
+            }
+        };
+        if (complete) {
+            this.mRepository.complete(id, listener);
+        } else {
+            this.mRepository.undo(id, listener);
+        }
     }
 }

@@ -57,10 +57,12 @@ public class TaskListFragment extends Fragment {
 
             @Override
             public void onCompleteClick(int id) {
+                mViewModel.updateStatus(id, true);
             }
 
             @Override
             public void onUndoClick(int id) {
+                mViewModel.updateStatus(id, false);
             }
         };
 
@@ -98,7 +100,6 @@ public class TaskListFragment extends Fragment {
                     toast(response.getMessage());
                 } else {
                     toast(getString(R.string.task_removed));
-                    mViewModel.getAllFiltered(mFilter);
                 }
             }
         });

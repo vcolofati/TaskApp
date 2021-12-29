@@ -68,6 +68,16 @@ public class TaskRepository extends BaseRepository {
         this.enqueue(call, listener);
     }
 
+    public void complete(int id, final APIListener<Boolean> listener) {
+        Call<Boolean> call = this.mService.complete(id);
+        this.enqueue(call, listener);
+    }
+
+    public  void undo(int id, final APIListener<Boolean> listener) {
+        Call<Boolean> call = this.mService.undo(id);
+        this.enqueue(call, listener);
+    }
+
     private void list(Call<List<Task>> call, final APIListener<List<Task>> listener) {
         call.enqueue(new Callback<List<Task>>() {
             @Override

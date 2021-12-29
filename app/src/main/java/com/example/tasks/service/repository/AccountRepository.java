@@ -29,6 +29,10 @@ public class AccountRepository extends BaseRepository {
     }
 
     public void signup(String name, String email, String password, final APIListener<Account> listener) {
+        if (!super.isConnectionAvailable()) {
+            listener.onFailure(mContext.getString(R.string.ERROR_INTERNET_CONNECTION));
+            return;
+        }
         Call<Account> call = this.mService.signup(name, email, password);
         call.enqueue(new Callback<Account>() {
             @Override
@@ -48,6 +52,10 @@ public class AccountRepository extends BaseRepository {
     }
 
     public void login(String email, String password, final APIListener<Account> listener) {
+        if (!super.isConnectionAvailable()) {
+            listener.onFailure(mContext.getString(R.string.ERROR_INTERNET_CONNECTION));
+            return;
+        }
         Call<Account> call = this.mService.login(email, password);
         call.enqueue(new Callback<Account>() {
             @Override

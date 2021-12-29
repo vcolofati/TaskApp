@@ -24,13 +24,7 @@ public class TaskRepository extends BaseRepository {
         this.mService = RetrofitClient.createService(TaskService.class);
     }
 
-    public void save(Task task, final APIListener<Boolean> listener) {
-        Call<Boolean> call = this.mService.create(
-                task.getPriorityId(),
-                task.getDescription(),
-                task.getDueDate(),
-                task.isComplete()
-        );
+    private void save(Call<Boolean> call, final APIListener<Boolean> listener) {
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
@@ -46,6 +40,27 @@ public class TaskRepository extends BaseRepository {
                 listener.onFailure(mContext.getString(R.string.ERROR_UNEXPECTED));
             }
         });
+    }
+
+    public void create(Task task, final APIListener<Boolean> listener) {
+        Call<Boolean> call = this.mService.create(
+                task.getPriorityId(),
+                task.getDescription(),
+                task.getDueDate(),
+                task.isComplete()
+        );
+        this.save(call, listener);
+    }
+
+    public void update(Task task, final APIListener<Boolean> listener) {
+        Call<Boolean> call = this.mService.update(
+                task.getId(),
+                task.getPriorityId(),
+                task.getDescription(),
+                task.getDueDate(),
+                task.isComplete()
+        );
+        this.save(call, listener);
     }
 
     private void list(Call<List<Task>> call, final APIListener<List<Task>> listener) {

@@ -42,7 +42,8 @@ public class TaskViewModel extends AndroidViewModel {
     }
 
     public void save(Task task) {
-        this.mTaskRepository.save(task, new APIListener<Boolean>() {
+
+        APIListener<Boolean> listener = new APIListener<Boolean>() {
             @Override
             public void onSuccess(Boolean result) {
                 mTaskResponse.setValue(new Response());
@@ -52,7 +53,13 @@ public class TaskViewModel extends AndroidViewModel {
             public void onFailure(String message) {
                 mTaskResponse.setValue(new Response(message));
             }
-        });
+        };
+
+        if (task.getId() == 0) {
+            this.mTaskRepository.create(task, listener);
+        } else {
+            this.mTaskRepository.update(task, listener);
+        }
     }
 
     public void get(int id) {

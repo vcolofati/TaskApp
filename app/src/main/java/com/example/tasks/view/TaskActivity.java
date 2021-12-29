@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +22,7 @@ import com.example.tasks.entities.Priority;
 import com.example.tasks.entities.Response;
 import com.example.tasks.entities.Task;
 import com.example.tasks.service.constants.TaskConstants;
-import com.example.tasks.util.DateManipulation;
+import com.example.tasks.util.DateHandler;
 import com.example.tasks.viewmodel.TaskViewModel;
 
 import java.text.SimpleDateFormat;
@@ -33,6 +34,8 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
 
     private final ViewHolder mViewHolder = new ViewHolder();
     private TaskViewModel mViewModel;
+    private int mTaskId = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +92,11 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadData() {
-        int mTaskId = 0;
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            mTaskId = bundle.getInt(TaskConstants.BUNDLE.TASKID);
-            this.mViewModel.get(mTaskId);
+            this.mTaskId = bundle.getInt(TaskConstants.BUNDLE.TASKID);
+            this.mViewModel.get(this.mTaskId);
+            mViewHolder.buttonSave.setText(this.getText(R.string.update_task));
         }
     }
 
@@ -114,6 +117,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleSave() {
         Task task = new Task();
+        task.setId(this.mTaskId);
         task.setDescription(this.mViewHolder.editDescription.getText().toString());
         task.setComplete(this.mViewHolder.checkComplete.isChecked());
         task.setDueDate(this.mViewHolder.buttonDate.getText().toString());
@@ -145,7 +149,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onChanged(Task task) {
                 mViewHolder.editDescription.setText(task.getDescription());
-                mViewHolder.buttonDate.setText(DateManipulation.manipulateDate(task.getDueDate()));
+                mViewHolder.buttonDate.setText(DateHandler.format(task.getDueDate()));
                 mViewHolder.checkComplete.setChecked(task.isComplete());
                 mViewHolder.spinnerPriority.setSelection(getIndex(task));
             }
@@ -154,15 +158,27 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         this.mViewModel.taskResponse.observe(this, new Observer<Response>() {
             @Override
             public void onChanged(Response response) {
-                String s = "";
+                if (response.isSuccess()) {
+                    if (mTaskId == 0) {
+                        toast(getApplication().getString(R.string.task_created));
+                    } else {
+                        toast(getApplication().getString(R.string.task_updated));
+                    }
+                    finish();
+                } else {
+                    toast(response.getMessage());
+                }
             }
         });
     }
 
     private int getIndex(Task task) {
+        // Pensar se realmente essa é a melhor maneira?
         Priority priority = new Priority();
         priority.setId(task.getPriorityId());
-        ArrayAdapter<Priority> tempArrayAdapter = (ArrayAdapter<Priority>) mViewHolder.spinnerPriority.getAdapter();
+        @SuppressWarnings("unchecked")
+        ArrayAdapter<Priority> tempArrayAdapter =
+        (ArrayAdapter<Priority>) mViewHolder.spinnerPriority.getAdapter();
         return tempArrayAdapter.getPosition(priority);
     }
 
@@ -170,6 +186,10 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         ArrayAdapter<Priority> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, list);
         mViewHolder.spinnerPriority.setAdapter(adapter);
+    }
+
+    private void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     /**

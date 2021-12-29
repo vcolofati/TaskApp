@@ -12,7 +12,7 @@ import com.example.tasks.R;
 import com.example.tasks.entities.Task;
 import com.example.tasks.service.listener.TaskListener;
 import com.example.tasks.service.repository.PriorityRepository;
-import com.example.tasks.util.DateManipulation;
+import com.example.tasks.util.DateHandler;
 
 
 public class TaskViewHolder extends RecyclerView.ViewHolder {
@@ -37,7 +37,7 @@ public class TaskViewHolder extends RecyclerView.ViewHolder {
      */
     public void bindData(final Task task) {
         this.mTextDescription.setText(task.getDescription());
-        this.mTextDueDate.setText(DateManipulation.manipulateDate(task.getDueDate()));
+        this.mTextDueDate.setText(DateHandler.format(task.getDueDate()));
         this.mTextPriority.setText(this.mRepository.getDescription(task.getPriorityId()));
         if (task.isComplete()) {
             this.mImageComplete.setImageResource(R.drawable.ic_done);

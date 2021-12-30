@@ -8,13 +8,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tasks.R;
 import com.example.tasks.entities.Response;
+import com.example.tasks.util.BiometricHelper;
 import com.example.tasks.viewmodel.LoginViewModel;
+
+import java.util.concurrent.Executor;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -38,8 +44,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Cria observadores
         this.loadObservers();
 
-        //Verificar se usuário já está logado
-        this.IsUserLogged();
+        this.mLoginViewModel.isBiometricAvailable();
     }
 
     @Override
@@ -68,15 +73,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             }
         });
-        this.mLoginViewModel.userLogged.observe(this, new Observer<Boolean>() {
+        this.mLoginViewModel.biometric.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isLogged) {
                 if (isLogged) {
-                    startMain();
+                    openAuthentication();
                 }
             }
         });
     }
+
+
 
     private void startMain() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -96,9 +103,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         this.mViewHolder.textSignup.setOnClickListener(this);
     }
 
-    private void IsUserLogged() {
-        this.mLoginViewModel.IsUserLogged();
+    private void openAuthentication() {
+        // Passos biometria
+        // Executor
+        Executor executor = ContextCompat.getMainExecutor(this);
+        // BiometricPrompt
+        BiometricPrompt biometricPrompt = new BiometricPrompt(LoginActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                startMain();
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+            }
+        });
+        // BiometricInfo
+        BiometricPrompt.PromptInfo info = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle(getString(R.string.insert_biometric))
+                .setNegativeButtonText("Cancelar")
+                .build();
+
+        biometricPrompt.authenticate(info);
     }
+
 
     /**
      * ViewHolder

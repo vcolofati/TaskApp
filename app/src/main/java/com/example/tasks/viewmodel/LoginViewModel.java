@@ -13,6 +13,7 @@ import com.example.tasks.entities.Response;
 import com.example.tasks.service.listener.APIListener;
 import com.example.tasks.service.repository.AccountRepository;
 import com.example.tasks.service.repository.PriorityRepository;
+import com.example.tasks.util.BiometricHelper;
 
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class LoginViewModel extends AndroidViewModel {
     private final MutableLiveData<Response> mLoginResponse = new MutableLiveData<>();
     public final LiveData<Response> loginResponse = this.mLoginResponse;
 
-    private final MutableLiveData<Boolean> mUserLogged = new MutableLiveData<>();
-    public final LiveData<Boolean> userLogged = this.mUserLogged;
+    private final MutableLiveData<Boolean> mBiometric = new MutableLiveData<>();
+    public final LiveData<Boolean> biometric = this.mBiometric;
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
@@ -52,12 +53,14 @@ public class LoginViewModel extends AndroidViewModel {
         });
     }
 
-    public void IsUserLogged() {
+    public void isBiometricAvailable() {
         Account account = this.mAccountRepository.getUserData();
-
         boolean isLogged = !"".equals(account.getName());
 
-        // Se usuário não está logado
+        // Dispositivo tem biometria
+        boolean haveBiometric = BiometricHelper.isAvailable(getApplication());
+
+        // Se usuário não está logado salva prioridade no banco de dados
         if (!isLogged) {
             this.mPriorityRepository.all(new APIListener<List<Priority>>() {
                 @Override
@@ -70,6 +73,9 @@ public class LoginViewModel extends AndroidViewModel {
                 }
             });
         }
-        this.mUserLogged.setValue(isLogged);
+
+        if(haveBiometric) {
+            this.mBiometric.setValue(isLogged);
+        }
     }
 }

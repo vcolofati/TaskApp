@@ -41,4 +41,5 @@
     <string name="image_complete">Imagem de tarefa</string>
     <string name="app_image">Imagem do drawer</string>
     <string name="insert_biometric">Insira biometria para entrar</string>
+    <string name="already_have_an_account">Já tem uma conta?</string>
 </resources>

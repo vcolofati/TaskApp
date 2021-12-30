@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,15 +28,12 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        // Botão de voltar nativo
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
         // Mapeamento de elementos
         this.componentMapping();
 
         // Listeners
         mViewHolder.buttonSignup.setOnClickListener(this);
+        mViewHolder.textLogin.setOnClickListener(this);
 
         // Incializa variáveis
         this.mRegisterViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
@@ -53,15 +51,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             String password = this.mViewHolder.editPassword.getText().toString();
 
             this.mRegisterViewModel.signup(name, email, password);
+        } else if (id == R.id.text_login) {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void loadObservers() {
@@ -84,6 +76,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         this.mViewHolder.editEmail = findViewById(R.id.edit_email);
         this.mViewHolder.editPassword = findViewById(R.id.edit_password);
         this.mViewHolder.buttonSignup = findViewById(R.id.button_signup);
+        this.mViewHolder.textLogin = findViewById(R.id.text_login);
     }
 
     /**
@@ -92,5 +85,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private static class ViewHolder {
         EditText editName, editEmail, editPassword;
         Button buttonSignup;
+        TextView textLogin;
     }
 }
